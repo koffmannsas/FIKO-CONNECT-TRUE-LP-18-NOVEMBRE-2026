@@ -1,0 +1,48 @@
+{
+  "baseline_id": "FIKO-LP-SEALED-BASELINE",
+  "project": "FIKO CONNECT™",
+  "sealed_at": "2026-10-25T13:10:45Z",
+  "git_commit": "df7ffc70e815d0d8deff49a4c78d54c51c6fb7bb",
+  "git_tag": "FIKO-LP-SEALED-BASELINE",
+  "authority": "PROPRIETAIRE DU PROJET",
+  "status": "SEALED_BASELINE",
+  "routes": [
+    "/",
+    "/fiko-connect"
+  ],
+  "modules_order": [
+    { "order": 1, "component": "FikoHeroSlider", "file": "frontend/src/components/FikoHeroSlider.tsx" },
+    { "order": 2, "component": "MetaVerificationBanner", "file": "frontend/src/components/MetaVerificationBanner.tsx" },
+    { "order": 3, "component": "FikoSuiteModules", "file": "frontend/src/components/FikoSuiteModules.tsx" },
+    { "order": 4, "component": "FikoWhatsAppBroadcast", "file": "frontend/src/components/FikoWhatsAppBroadcast.tsx" },
+    { "order": 5, "component": "FikoAiFeatures", "file": "frontend/src/components/FikoAiFeatures.tsx" },
+    { "order": 6, "component": "FikoPricingSlider", "file": "frontend/src/components/FikoPricingSlider.tsx" },
+    { "order": 7, "component": "FikoPricingSimulator", "file": "frontend/src/components/FikoPricingSimulator.tsx" },
+    { "order": 8, "component": "FikoHeroIA", "file": "frontend/src/components/FikoHeroIA.tsx" }
+  ],
+  "checksums_sha256": {
+    "frontend/src/pages/fiko/FikoConnectPage.tsx": "36b2f7522813bdc704c261540c11bdbcf3a5476c0e781bd4d73cf35cf9ea657c",
+    "frontend/src/components/FikoHeroSlider.tsx": "48081e5f5a0c6c906151005f191ba21ac0e3f4fd35f288dde07e9d077997b666",
+    "frontend/src/components/FikoHeroSlider.css": "8a1dad5e3db1c1f1d19194b737df515fa12d2b1c00691c1d7a3b79ba7a1b3bb9",
+    "frontend/src/components/MetaVerificationBanner.tsx": "da71e4f85810a6fbd7f704e6155dbe927ddf63b54631d5161f74790278da9105",
+    "frontend/src/components/MetaVerificationBanner.css": "2bdd176d95c79b9c02b8794b46a22996153d1eb68ae7e97cb6635fa5ce65b146",
+    "frontend/src/components/FikoSuiteModules.tsx": "60e3ef3da3895a5f3cee6a35f0251701f6dc316c969ac5c0f2359f2b2b88bc9c",
+    "frontend/src/components/FikoSuiteModules.css": "ece6e8b00e2bf21611f12595da289aa8d0039948a40d6b3545b31ce9e045f285",
+    "frontend/src/components/FikoWhatsAppBroadcast.tsx": "91ae2f6adc8398339f5aae5cfaf6eb2f7319be4f44ec3b7de70878348a85dbf6",
+    "frontend/src/components/FikoWhatsAppBroadcast.css": "c889d02435e500fcaa24c5f172da31854dc4b6d01f58c9fd44a4151ab0d5bb43",
+    "frontend/src/components/FikoAiFeatures.tsx": "cd249b896282db41b9a51e3f005de6c14839253489db243694196073e66746a2",
+    "frontend/src/components/FikoAiFeatures.css": "292d6553ba4b7812ffb8805ac85d49a2dcb8003127d74b135120f749c0d3d950",
+    "frontend/src/components/FikoPricingSlider.tsx": "08fe91af5d2a202d818277cac4465513c9e43f53a9d65a72cb8f24a5ac1ce7c4",
+    "frontend/src/components/FikoPricingSlider.css": "3c7326dc6b65f5d2df6e08f0e26cd666dbcd335c9a1342f864867e6464567729",
+    "frontend/src/components/FikoPricingSimulator.tsx": "0d1feb16833b889b37a453840bc653a355bf8689971cf276378686abfeb599c7",
+    "frontend/src/components/FikoPricingSimulator.css": "22862f5d313372d44683b215648d14d4c248896dfe856e530c1dbb59a6f85082",
+    "frontend/src/components/FikoHeroIA.tsx": "943c6f454a4d426ceb3179007634cde755896d2e74305b8a51d4d72fce7b2c1a",
+    "frontend/src/components/FikoHeroIA.css": "145760f5b1b7ea63edd6c5d3debf8762280e13d1b3724cf731da8cf93369a6a2",
+    "frontend/src/data/fikoPricing.ts": "d1cbd8ec5483f4fb7c403cac4d7217fb88402d435c929441523e4ede4dc2adb9",
+    "frontend/src/utils/navigation.ts": "b7be3322dffa948ddceefb04a50491de305221f13b0fd2720efe29d1f9fcd0ac",
+    "frontend/src/components/Navbar.tsx": "7c830b06016a0de1f53a1573616e7746e6082d4f135a6f885a98047423ca0f0e",
+    "frontend/src/components/Footer.tsx": "3771f49044f067f4ba0b42f8e2714ecc88fd1a3485c68e77600d8a685c6cae18",
+    "frontend/src/App.tsx": "e39e9676229ce2c8be39027e1292e8e678d9546f2312ace4a32ef12c4442c89f",
+    "frontend/src/routes.config.ts": "96b903edcb48ccc21839061a21a43d9b86a431cf3f216133f76ef857d2f720e2"
+  }
+}

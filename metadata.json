@@ -1,0 +1,10 @@
+{
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "name": "Remix LP-OFFICIELLE-FIKO-CONNECT",
+  "description": "Fiko Connect - Plateforme intelligente d'automatisation WhatsApp Business pour qualifier, relancer et convertir vos prospects en clients 24h/24. Une marque KCG.",
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

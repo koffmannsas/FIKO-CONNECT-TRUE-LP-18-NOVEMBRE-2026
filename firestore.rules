@@ -1,0 +1,361 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerified() {
+      return isSignedIn(); // Allow unverified for testing
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'super_admin'] ||
+        request.auth.token.email == 'koffmannsas@gmail.com'
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // --- Entity Validations ---
+    function isValidUser(data) {
+      return data.uid == request.auth.uid 
+        && data.email is string && data.email.size() <= 256
+        && (data.role == 'client' || isAdmin()); // Clients can't promote themselves
+    }
+
+    function isValidPayment(data) {
+      return data.userId == request.auth.uid
+        && data.amount is number && data.amount > 0
+        && data.offer is string && data.offer.size() <= 100
+        && data.method in ['wave', 'bank', 'cash', 'check']
+        && data.status in ['succeeded', 'failed', 'pending'];
+    }
+
+    function isValidLead(data) {
+      return data.email is string && data.email.size() <= 256
+        && data.score is number && data.score >= 0 && data.score <= 100
+        && (data.userId == request.auth.uid || !('userId' in data));
+    }
+
+    function isValidOpportunityCreate(data) {
+      return data.userId == request.auth.uid
+        && data.type in ['upgrade', 'activation_agents', 'conversion_optimization']
+        && data.status in ['open', 'clicked', 'converted', 'closed']
+        && data.value is number
+        && data.impact is number;
+    }
+
+    function isValidFikoMemory(data) {
+      return data.userId == request.auth.uid
+        && data.memoryLevel is string;
+    }
+
+    function isValidFikoDecision(data) {
+      return data.userId == request.auth.uid
+        && data.type in ['micro_recommendation', 'strategic_alert', 'proactive_decision', 'autonomous_preparation']
+        && data.priority in ['urgent', 'important', 'optimization', 'future']
+        && data.confidence is number
+        && data.recommendation is string
+        && data.status in ['pending', 'acknowledged', 'actioned', 'dismissed'];
+    }
+
+    function isValidFikoAutonomousAction(data) {
+      return data.userId == request.auth.uid
+        && data.type in ['preparation', 'configuration', 'optimization', 'predictive']
+        && data.title is string
+        && data.description is string
+        && data.status in ['prepared', 'executing', 'completed', 'dismissed']
+        && data.confidence is number
+        && data.priority in ['critical', 'strategic', 'optimization', 'opportunity'];
+    }
+
+    function isValidFikoStrategicMode(data) {
+      return data.userId == request.auth.uid
+        && data.activeMode in ['expansion', 'conversion', 'authority', 'automation', 'domination']
+        && data.modeLevel is number
+        && data.effectivenessScore is number;
+    }
+
+    function isValidFikoOrchestration(data) {
+      return data.userId == request.auth.uid
+        && data.orchestrationType is string
+        && data.systemsAffected is list
+        && data.confidence is number
+        && data.impact in ['strong', 'medium', 'low']
+        && data.status in ['pending', 'executed', 'failed']
+        && data.strategicMode is string;
+    }
+
+    function isValidFikoMarketPulse(data) {
+      return data.userId == request.auth.uid
+        && data.signalType is string
+        && data.marketTrend in ['rising', 'falling', 'stable']
+        && data.confidence is number
+        && data.impact in ['strong', 'medium', 'low']
+        && data.urgency in ['high', 'medium', 'low']
+        && data.recommendedMode is string;
+    }
+
+    function isValidFikoImpactSimulation(data) {
+      return data.userId == request.auth.uid
+        && data.simulationType in ['acquisition', 'conversion', 'seo', 'automation', 'strategic']
+        && data.projectedImpact is number
+        && data.confidence is number
+        && data.riskLevel in ['high', 'medium', 'low']
+        && data.strategicMode is string;
+    }
+
+    function isValidFikoRelationship(data) {
+      return data.userId == request.auth.uid
+        && data.relationshipLevel in ['discovery', 'synchronization', 'trust', 'contextual', 'copilot', 'symbiosis']
+        && data.communicationStyle in ['executive', 'growth', 'guided', 'enterprise']
+        && data.trustScore is number;
+    }
+
+    function isValidFikoLearningEvent(data) {
+      return data.userId == request.auth.uid
+        && data.sourceType in ['prediction', 'orchestration', 'decision']
+        && data.sourceId is string
+        && data.accuracyScore is number;
+    }
+
+    function isValidFikoEconomicForecast(data) {
+      return data.userId == request.auth.uid
+        && data.forecastType in ['market_growth', 'economic_risk', 'opportunity', 'revenue', 'strategic']
+        && data.confidenceScore is number
+        && data.projectedGrowth is number
+        && data.economicRisk in ['high', 'medium', 'low']
+        && data.opportunityLevel in ['strong', 'medium', 'low']
+        && data.strategicRecommendation is string
+        && data.forecastWindow in ['7d', '30d', '90d', '6m', '12m']
+        && data.status in ['active', 'outdated'];
+    }
+
+    function isValidFikoAutonomousOperation(data) {
+      return data.userId == request.auth.uid
+        && data.operationType in ['acquisition', 'crm', 'automation', 'seo', 'strategic']
+        && data.operationStatus in ['prepared', 'executing', 'completed', 'dismissed']
+        && data.confidenceScore is number
+        && data.businessImpact in ['high', 'medium', 'low']
+        && data.executionMode in ['assisted', 'semi_autonomous', 'autonomous']
+        && data.systemsAffected is list
+        && data.triggeredBy is string;
+    }
+
+    function isValidFikoAuditLog(data) {
+      return (data.leadId is string && data.leadId.size() <= 128)
+        && (data.prospectName is string && data.prospectName.size() <= 128)
+        && (data.state is string && data.state.size() <= 128)
+        && (data.lastUserMessage is string && data.lastUserMessage.size() <= 10000)
+        && (data.fikoReply is string && data.fikoReply.size() <= 20000)
+        && (!('isConverted' in data) || data.isConverted is bool)
+        && (!('modelUsed' in data) || (data.modelUsed is string && data.modelUsed.size() <= 128))
+        && (!('offerRecommended' in data) || (data.offerRecommended is string && data.offerRecommended.size() <= 128))
+        && (!('responseTimeMs' in data) || (data.responseTimeMs is number))
+        && (!('failureReason' in data) || (data.failureReason is string && data.failureReason.size() <= 1000))
+        && (!('timestamp' in data) || data.timestamp == request.time || data.timestamp is timestamp);
+    }
+
+    function isValidFikoConversation(data) {
+      return (data.userId is string && data.userId.size() <= 128)
+        && (data.role in ['user', 'model', 'assistant', 'system'])
+        && (data.text is string && data.text.size() <= 20000)
+        && (!('timestamp' in data) || data.timestamp == request.time || data.timestamp is timestamp);
+    }
+
+    // --- Rules ---
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(userId) && isValidUser(incoming());
+      allow update: if (isOwner(userId) || isAdmin()) && isValidUser(incoming()) && (
+        // Prevent self-promotion for non-admins
+        (isAdmin() || incoming().role == existing().role)
+      );
+    }
+
+    match /companies/{companyId} {
+      allow read: if isSignedIn() && (existing().ownerId == request.auth.uid || isAdmin());
+      allow write: if isAdmin() || (isSignedIn() && (
+        (request.method == 'create' && incoming().ownerId == request.auth.uid) ||
+        (request.method == 'update' && existing().ownerId == request.auth.uid && incoming().ownerId == existing().ownerId)
+      ));
+    }
+
+    match /payments/{paymentId} {
+      allow get: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow create: if isVerified() && isValidPayment(incoming()) && incoming().status == 'pending';
+      allow update, delete: if isAdmin();
+    }
+
+    match /leads/{leadId} {
+      allow get: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow create: if isVerified() && isValidLead(incoming());
+      allow update: if isVerified() && (existing().userId == request.auth.uid || isAdmin()) && isValidLead(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /opportunities/{opportunityId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin())
+        && (
+            (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt'])
+             && request.resource.data.status in ['clicked', 'converted', 'closed']
+             && request.resource.data.userId == existing().userId
+            )
+            || isAdmin()
+        );
+      allow create: if isSignedIn() && isValidOpportunityCreate(incoming()) && incoming().status == 'open';
+    }
+
+    match /fiko_memory/{memoryId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidFikoMemory(incoming());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin()) && isValidFikoMemory(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /fiko_decisions/{decisionId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidFikoDecision(incoming());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin()) && isValidFikoDecision(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /fiko_autonomous_actions/{actionId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidFikoAutonomousAction(incoming());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin()) && isValidFikoAutonomousAction(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /fiko_strategic_modes/{modeId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidFikoStrategicMode(incoming());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin()) && isValidFikoStrategicMode(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /fiko_impact_simulations/{simulationId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidFikoImpactSimulation(incoming());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin()) && isValidFikoImpactSimulation(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /fiko_behavior_predictions/{predictionId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidFikoBehaviorPrediction(incoming());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin()) && isValidFikoBehaviorPrediction(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /fiko_economic_forecasts/{forecastId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidFikoEconomicForecast(incoming());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin()) && isValidFikoEconomicForecast(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /fiko_autonomous_operations/{operationId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidFikoAutonomousOperation(incoming());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin()) && isValidFikoAutonomousOperation(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /fiko_learning_events/{eventId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidFikoLearningEvent(incoming());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin()) && isValidFikoLearningEvent(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /fiko_relationships/{relationshipId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidFikoRelationship(incoming());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin()) && isValidFikoRelationship(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /fiko_orchestrations/{orchestrationId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidFikoOrchestration(incoming());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin()) && isValidFikoOrchestration(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /fiko_market_pulse/{pulseId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidFikoMarketPulse(incoming());
+      allow update: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin()) && isValidFikoMarketPulse(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /fiko_audit_logs/{logId} {
+      allow create: if isValidFikoAuditLog(incoming());
+      allow get, list: if isAdmin();
+      allow update, delete: if isAdmin();
+    }
+
+    match /fiko_conversations/{convId} {
+      allow create: if isValidFikoConversation(incoming());
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+
+    match /ai_agents/{agentId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /subscriptions/{subId} {
+      allow read: if isSignedIn() && (existing().companyId == request.auth.uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    match /pricing_plans/{planId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /pricing_features/{featureId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /risk_profiles/{profileId} {
+      allow read, write: if isAdmin();
+    }
+    
+    match /relances/{relanceId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

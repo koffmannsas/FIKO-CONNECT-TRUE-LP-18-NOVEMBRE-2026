@@ -1,0 +1,65 @@
+{
+  "version": "1.0",
+  "title": "Guide & Questions Fréquentes Fiko Connect",
+  "updatedAt": "2026-11-18",
+  "items": [
+    {
+      "id": "essai-gratuit-7-jours",
+      "category": "Démarrage",
+      "question": "Comment fonctionne l'essai gratuit de 7 jours sur Fiko Connect ?",
+      "answer": "Vous profitez d'un accès complet pendant 7 jours à 0 FCFA et sans engagement. Vous connectez votre WhatsApp Business par simple QR Code, activez les réponses automatiques 24h/24 et testez la capture de coordonnées en conditions réelles avant toute facturation.",
+      "steps": [
+        "Cliquez sur « Essayer gratuitement » pour créer votre espace.",
+        "Reliez votre numéro WhatsApp Business par QR Code en moins de 3 minutes.",
+        "Testez vos premiers échanges automatisés avec l'aide au démarrage."
+      ]
+    },
+    {
+      "id": "delai-mise-en-route",
+      "category": "Démarrage",
+      "question": "Faut-il des compétences techniques pour configurer mon premier agent ?",
+      "answer": "Aucune compétence en code n'est requise. La prise en main se fait depuis une interface guidée : vous renseignez votre activité, vos produits ou tarifs, puis vous connectez vos canaux en quelques minutes.",
+      "steps": [
+        "Décrivez votre offre et vos réponses clés.",
+        "Choisissez vos règles de qualification et de relance.",
+        "Activez la diffusion ou le chat entrant."
+      ]
+    },
+    {
+      "id": "canaux-compatibles",
+      "category": "WhatsApp & Canaux",
+      "question": "Quels canaux de messagerie puis-je connecter à Fiko Connect ?",
+      "answer": "Fiko Connect centralise WhatsApp (WhatsApp Business API et connexion par QR Code), Facebook Messenger, Instagram Direct, Telegram ainsi que le chat en direct sur votre site web dans une interface unique."
+    },
+    {
+      "id": "multi-comptes-agents",
+      "category": "WhatsApp & Canaux",
+      "question": "Puis-je connecter plusieurs numéros WhatsApp et plusieurs commerciaux ?",
+      "answer": "Oui. Le forfait Starter inclut 1 compte WhatsApp, Growth jusqu'à 2 comptes, Pro jusqu'à 5 comptes, et Elite propose le multi-comptes et multi-agents illimités. Vous pouvez également ajuster le nombre exact d'agents et de canaux dans le simulateur ci-dessus."
+    },
+    {
+      "id": "qualification-relances",
+      "category": "IA & Automatisation",
+      "question": "Comment Fiko Connect qualifie et relance mes prospects automatiquement ?",
+      "answer": "Dès qu'un prospect écrit, l'agent répond 24h/24, capture ses coordonnées et identifie son niveau d'intérêt (Chaud / Tiède). Selon votre forfait, Fiko Connect déclenche ensuite des scénarios de conversion et des relances cadencées (J+1, J+3, J+7) pour éviter les ventes perdues."
+    },
+    {
+      "id": "personnalisation-catalogue",
+      "category": "IA & Automatisation",
+      "question": "L'assistant connaît-il mes produits, mes prix et ma façon de parler ?",
+      "answer": "Oui. Vous alimentez la base conversationnelle avec vos informations commerciales, vos offres et le ton de votre entreprise. Sur le forfait Elite, un modèle IA personnalisé est entraîné directement sur votre catalogue."
+    },
+    {
+      "id": "tarifs-remise-annuelle",
+      "category": "Tarifs & Facturation",
+      "question": "Quels sont les tarifs et comment appliquer la remise de 20 % ?",
+      "answer": "Les forfaits démarrent à 19 000 CFA/mois (Starter), 49 000 CFA/mois (Growth), 99 000 CFA/mois (Pro) et 199 000 CFA/mois (Elite), sans engagement. En passant sur la facturation annuelle, vous économisez 20 % automatiquement (soit à partir de 15 000 CFA/mois)."
+    },
+    {
+      "id": "securite-meta-support",
+      "category": "Sécurité & Support",
+      "question": "Fiko Connect est-il conforme aux règles Meta et comment contacter le support ?",
+      "answer": "Fiko Connect est opéré par Koffmann Capital Group (KCG), fournisseur de technologie vérifié par Meta. Les données clients sont isolées et ne sont jamais revendues. Pour toute question technique ou légale, l'équipe reste joignable par email à support@krypton-ia.tech ainsi que via le support prioritaire ou VIP selon votre plan."
+    }
+  ]
+}

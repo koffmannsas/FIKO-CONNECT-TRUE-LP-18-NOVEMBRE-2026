@@ -1,0 +1,38 @@
+# ==============================================================================
+# FIKO CONNECT™ — CODEOWNERS GOUVERNANCE SCELLÉE
+# Dépôt officiel : https://github.com/koffmannsas/Fiko-Connect-LP
+# Propriétaire officiel désigné : @koffmannsas
+# Toute modification des fichiers listés ci-dessous exige la revue et
+# l'approbation explicite de @koffmannsas avant fusion.
+# ==============================================================================
+
+# 1. Périmètre scellé de la Landing Page Fiko Connect™ (23 fichiers intouchables)
+/frontend/src/pages/fiko/FikoConnectPage.tsx          @koffmannsas
+/frontend/src/components/FikoHeroSlider.tsx          @koffmannsas
+/frontend/src/components/FikoHeroSlider.css          @koffmannsas
+/frontend/src/components/MetaVerificationBanner.tsx  @koffmannsas
+/frontend/src/components/MetaVerificationBanner.css  @koffmannsas
+/frontend/src/components/FikoSuiteModules.tsx        @koffmannsas
+/frontend/src/components/FikoSuiteModules.css        @koffmannsas
+/frontend/src/components/FikoWhatsAppBroadcast.tsx   @koffmannsas
+/frontend/src/components/FikoWhatsAppBroadcast.css   @koffmannsas
+/frontend/src/components/FikoAiFeatures.tsx          @koffmannsas
+/frontend/src/components/FikoAiFeatures.css          @koffmannsas
+/frontend/src/components/FikoPricingSlider.tsx       @koffmannsas
+/frontend/src/components/FikoPricingSlider.css       @koffmannsas
+/frontend/src/components/FikoPricingSimulator.tsx    @koffmannsas
+/frontend/src/components/FikoPricingSimulator.css    @koffmannsas
+/frontend/src/components/FikoHeroIA.tsx              @koffmannsas
+/frontend/src/components/FikoHeroIA.css              @koffmannsas
+/frontend/src/data/fikoPricing.ts                    @koffmannsas
+/frontend/src/utils/navigation.ts                    @koffmannsas
+/frontend/src/components/Navbar.tsx                  @koffmannsas
+/frontend/src/components/Footer.tsx                  @koffmannsas
+/frontend/src/App.tsx                                @koffmannsas
+/frontend/src/routes.config.ts                       @koffmannsas
+
+# 2. Mécanismes de gouvernance, vérification et CI
+/scripts/                                            @koffmannsas
+/.github/workflows/                                  @koffmannsas
+/.github/CODEOWNERS                                  @koffmannsas
+/package.json                                        @koffmannsas

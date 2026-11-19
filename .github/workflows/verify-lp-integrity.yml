@@ -1,0 +1,55 @@
+name: Verify Fiko Connect LP Integrity
+
+# ==============================================================================
+# FIKO CONNECT™ — VÉRIFICATION AUTOMATIQUE DE L'INTÉGRITÉ DE LA LANDING PAGE
+# IMPORTANT : Pour bloquer effectivement les merges sur GitHub, configurez dans
+# Settings > Branches > Branch protection rules (sur main/master) :
+# "Require status checks to pass before merging" avec le job "verify-landing-page".
+# ==============================================================================
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-landing-page:
+    name: Check 23 Protected LP Files Against Sealed Baseline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check Governance Perimeter Modifications
+        run: |
+          echo "🛡️  Vérification de la modification éventuelle des fichiers de gouvernance..."
+          GOVERNANCE_CHANGED=0
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch origin ${{ github.base_ref }} --depth=1 || true
+            CHANGED=$(git diff --name-only origin/${{ github.base_ref }} HEAD || true)
+            echo "Fichiers modifiés dans cette PR :"
+            echo "$CHANGED"
+            if echo "$CHANGED" | grep -E '^(\.github\/workflows\/|\.github\/CODEOWNERS|scripts\/|package\.json)'; then
+              echo "⚠️  ATTENTION : Des fichiers de gouvernance ou de workflow ont été modifiés dans cette PR !"
+              echo "   Une revue formelle par le propriétaire (CODEOWNERS) est indispensable."
+            fi
+          fi
+
+      - name: Run Integrity Verification Script
+        run: |
+          chmod +x scripts/verify-lp-baseline.sh
+          bash scripts/verify-lp-baseline.sh
+
